@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Démo Navigation OptiFlow</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 30px;
+        }
+        
+        .demo-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+        }
+        
+        .navigation-flow {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        
+        .page-section {
+            border: 3px dashed #667eea;
+            border-radius: 15px;
+            padding: 25px;
+            background: #f8f9ff;
+            transition: all 0.3s;
+        }
+        
+        .page-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+        }
+        
+        .page-title {
+            font-size: 22px;
+            color: #667eea;
+            margin-bottom: 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .page-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+        
+        .buttons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .demo-button {
+            padding: 15px 20px;
+            border: 2px solid #667eea;
+            background: white;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+            text-align: center;
+        }
+        
+        .demo-button:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .demo-button.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #764ba2;
+        }
+        
+        .demo-button.home {
+            background: #ffecd2;
+            border-color: #fcb69f;
+            grid-column: 1 / -1;
+        }
+        
+        .demo-button.home:hover {
+            background: #fcb69f;
+            color: white;
+        }
+        
+        .arrow {
+            text-align: center;
+            font-size: 30px;
+            color: #667eea;
+            margin: 20px 0;
+        }
+        
+        .explanation {
+            background: #e8f0fe;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .code-box {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            margin-top: 10px;
+        }
+        
+        .highlight {
+            color: #66d9ef;
+        }
+        
+        .string {
+            color: #a6e22e;
+        }
+        
+        .current-page {
+            background: #fff3cd;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            color: #856404;
+            border: 2px solid #ffc107;
+        }
+        
+        .interactive-demo {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+        
+        .demo-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+        }
+        
+        #currentPageDisplay {
+            font-size: 18px;
+            font-weight: 600;
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .nav-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 16px;
+        }
+        
+        .nav-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .nav-home {
+            background: #ffc107;
+            color: #333;
+        }
+        
+        .nav-simplex {
+            background: #ff6b6b;
+            color: white;
+        }
+        
+        .nav-dual {
+            background: #4ecdc4;
+            color: white;
+        }
+        
+        .nav-pert {
+            background: #95e1d3;
+            color: #333;
+        }
+        
+        .nav-mpm {
+            background: #f38181;
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .demo-container {
+                padding: 20px;
+            }
+            .buttons-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="demo-container">
+        <h1>🎯 Démonstration Interactive - Navigation OptiFlow</h1>
+        <p class="subtitle">Cliquez sur les boutons pour voir comment fonctionne la navigation</p>
+
+        <!-- Démo Interactive -->
+        <div class="interactive-demo">
+            <div class="demo-title">🎮 Essayez la Navigation !</div>
+            <div id="currentPageDisplay">📍 Page Actuelle : index_main.html (Accueil)</div>
+
+            <div class="nav-buttons">
+                <button class="nav-btn nav-home" onclick="navigate('index_main.html', 'Accueil')">
+                    🏠 Accueil
+                </button>
+                <button class="nav-btn nav-simplex" onclick="navigate('h.html', 'Module Simplex')">
+                    📊 Simplex
+                </button>
+                <button class="nav-btn nav-dual" onclick="navigate('index.html', 'Module Dual')">
+                    🔄 Dual
+                </button>
+                <button class="nav-btn nav-pert" onclick="navigate('index_pert.html', 'Module PERT')">
+                    🗓️ PERT
+                </button>
+                <button class="nav-btn nav-mpm" onclick="navigate('index_mpm.html', 'Module MPM')">
+                    📈 MPM
+                </button>
+            </div>
+        </div>
+
+        <div class="navigation-flow">
+            <!-- Page d'accueil -->
+            <div class="page-section">
+                <div class="page-title">
+                    <div class="page-icon">🏠</div>
+                    Page d'Accueil : index_main.html
+                </div>
+
+                <p><strong>Description :</strong> Point de départ de l'application avec 4 cartes de modules</p>
+
+                <div class="buttons-grid">
+                    <div class="demo-button" onclick="showCode('simplex')">
+                        📊 Module Simplex
+                    </div>
+                    <div class="demo-button" onclick="showCode('dual')">
+                        🔄 Module Dual
+                    </div>
+                    <div class="demo-button" onclick="showCode('pert')">
+                        🗓️ Module PERT
+                    </div>
+                    <div class="demo-button" onclick="showCode('mpm')">
+                        📈 Module MPM
+                    </div>
+                </div>
+
+                <div class="explanation">
+                    <strong>💡 Comment ça marche :</strong><br> Chaque carte est un lien <code>&lt;a href="fichier.html"&gt;</code> qui charge la page du module correspondant.
+                </div>
+            </div>
+
+            <div class="arrow">⬇️</div>
+
+            <!-- Pages de modules -->
+            <div class="page-section">
+                <div class="page-title">
+                    <div class="page-icon">📄</div>
+                    Pages des Modules : h.html, index.html, index_pert.html, index_mpm.html
+                </div>
+
+                <p><strong>Description :</strong> Chaque module a sa barre de navigation en haut</p>
+
+                <div class="buttons-grid">
+                    <div class="demo-button home">
+                        ← OptiFlow Manager (Retour)
+                    </div>
+                    <div class="demo-button">
+                        Simplex
+                    </div>
+                    <div class="demo-button active">
+                        Dual (Actif)
+                    </div>
+                    <div class="demo-button">
+                        PERT
+                    </div>
+                    <div class="demo-button">
+                        MPM
+                    </div>
+                </div>
+
+                <div class="explanation">
+                    <strong>💡 Navigation entre modules :</strong><br> La barre en haut permet de naviguer entre tous les modules sans repasser par l'accueil. Le bouton actif (<span style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 2px 8px; border-radius: 4px;">violet</span>)
+                    indique la page actuelle.
+                </div>
+            </div>
+        </div>
+
+        <!-- Zone d'affichage du code -->
+        <div id="codeDisplay" style="display:none; margin-top: 30px;">
+            <h3 style="color: #667eea; margin-bottom: 15px;">📝 Code HTML Correspondant</h3>
+            <div id="codeContent" class="code-box"></div>
+        </div>
+    </div>
+
+    <script>
+        let currentPage = 'index_main.html';
+        let currentModule = 'Accueil';
+
+        function navigate(page, module) {
+            currentPage = page;
+            currentModule = module;
+            document.getElementById('currentPageDisplay').innerHTML =
+                `📍 Page Actuelle : <strong>${page}</strong> (${module})`;
+
+            // Animation
+            const display = document.getElementById('currentPageDisplay');
+            display.style.transform = 'scale(1.1)';
+            setTimeout(() => {
+                display.style.transform = 'scale(1)';
+            }, 200);
+        }
+
+        function showCode(module) {
+            const codeDisplay = document.getElementById('codeDisplay');
+            const codeContent = document.getElementById('codeContent');
+
+            const codes = {
+                simplex: `<span class="highlight">&lt;a</span> <span class="string">href="h.html"</span> <span class="highlight">class=</span><span class="string">"module-card module-simplex"</span><span class="highlight">&gt;</span>
+    <span class="highlight">&lt;div</span> <span class="highlight">class=</span><span class="string">"module-icon"</span><span class="highlight">&gt;</span>📊<span class="highlight">&lt;/div&gt;</span>
+    <span class="highlight">&lt;h3&gt;</span>Module Simplex<span class="highlight">&lt;/h3&gt;</span>
+    <span class="highlight">&lt;p&gt;</span>Résolution de programmes linéaires<span class="highlight">&lt;/p&gt;</span>
+<span class="highlight">&lt;/a&gt;</span>
+
+<span style="color: #75715e;">// Quand l'utilisateur clique, le navigateur charge h.html</span>`,
+
+                dual: `<span class="highlight">&lt;a</span> <span class="string">href="index.html"</span> <span class="highlight">class=</span><span class="string">"module-card module-dual"</span><span class="highlight">&gt;</span>
+    <span class="highlight">&lt;div</span> <span class="highlight">class=</span><span class="string">"module-icon"</span><span class="highlight">&gt;</span>🔄<span class="highlight">&lt;/div&gt;</span>
+    <span class="highlight">&lt;h3&gt;</span>Module Dual<span class="highlight">&lt;/h3&gt;</span>
+    <span class="highlight">&lt;p&gt;</span>Conversion primal ↔ dual<span class="highlight">&lt;/p&gt;</span>
+<span class="highlight">&lt;/a&gt;</span>
+
+<span style="color: #75715e;">// Quand l'utilisateur clique, le navigateur charge index.html</span>`,
+
+                pert: `<span class="highlight">&lt;a</span> <span class="string">href="index_pert.html"</span> <span class="highlight">class=</span><span class="string">"module-card module-pert"</span><span class="highlight">&gt;</span>
+    <span class="highlight">&lt;div</span> <span class="highlight">class=</span><span class="string">"module-icon"</span><span class="highlight">&gt;</span>🗓️<span class="highlight">&lt;/div&gt;</span>
+    <span class="highlight">&lt;h3&gt;</span>Module PERT<span class="highlight">&lt;/h3&gt;</span>
+    <span class="highlight">&lt;p&gt;</span>Gestion de projet AON/AOA<span class="highlight">&lt;/p&gt;</span>
+<span class="highlight">&lt;/a&gt;</span>
+
+<span style="color: #75715e;">// Quand l'utilisateur clique, le navigateur charge index_pert.html</span>`,
+
+                mpm: `<span class="highlight">&lt;a</span> <span class="string">href="index_mpm.html"</span> <span class="highlight">class=</span><span class="string">"module-card module-mpm"</span><span class="highlight">&gt;</span>
+    <span class="highlight">&lt;div</span> <span class="highlight">class=</span><span class="string">"module-icon"</span><span class="highlight">&gt;</span>📈<span class="highlight">&lt;/div&gt;</span>
+    <span class="highlight">&lt;h3&gt;</span>Module MPM<span class="highlight">&lt;/h3&gt;</span>
+    <span class="highlight">&lt;p&gt;</span>Ordonnancement de projet<span class="highlight">&lt;/p&gt;</span>
+<span class="highlight">&lt;/a&gt;</span>
+
+<span style="color: #75715e;">// Quand l'utilisateur clique, le navigateur charge index_mpm.html</span>`
+            };
+
+            codeContent.innerHTML = codes[module];
+            codeDisplay.style.display = 'block';
+            codeDisplay.scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+    </script>
+</body>
+
+</html>

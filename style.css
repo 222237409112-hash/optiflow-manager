@@ -1,0 +1,182 @@
+/* ===== Base ===== */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background: #f8f4f4;
+    color: #E5E5E5;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+h1 {
+    text-align: center;
+    font-weight: 700;
+    font-size: 2.2rem;
+    margin-bottom: 30px;
+    background: linear-gradient(90deg, #ff7a18, #af002d);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+
+/* ===== Cards ===== */
+
+.card {
+    background: #1E1E2E;
+    border-radius: 20px;
+    padding: 25px;
+    margin-bottom: 25px;
+    box-shadow: 8px 8px 20px #14141f, -8px -8px 20px #28283d;
+    transition: 0.3s;
+}
+
+.card:hover {
+    box-shadow: 4px 4px 12px #14141f, -4px -4px 12px #28283d;
+}
+
+
+/* ===== Grid ===== */
+
+.grid {
+    display: grid;
+    gap: 15px;
+}
+
+.grid-variables {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+}
+
+.grid-constraints {
+    grid-template-columns: 1fr;
+}
+
+
+/* ===== Inputs ===== */
+
+label {
+    font-weight: 500;
+    font-size: 0.95rem;
+    margin-bottom: 5px;
+    display: block;
+    color: #ccc;
+}
+
+input[type="number"],
+select {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 15px;
+    border: none;
+    background: #1A1A28;
+    color: #fff;
+    box-shadow: inset 6px 6px 12px #14141f, inset -6px -6px 12px #28283d;
+    font-weight: 500;
+}
+
+input:focus,
+select:focus {
+    outline: none;
+    box-shadow: inset 4px 4px 8px #14141f, inset -4px -4px 8px #28283d;
+}
+
+
+/* ===== Buttons ===== */
+
+.btn {
+    padding: 14px 25px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    border: none;
+    color: #fff;
+    transition: 0.3s;
+    box-shadow: 4px 4px 12px #14141f, -4px -4px 12px #28283d;
+}
+
+.btn-generate {
+    background: linear-gradient(135deg, #ff7a18, #af002d);
+}
+
+.btn-generate:hover {
+    transform: scale(1.05);
+}
+
+.btn-solve {
+    background: linear-gradient(135deg, #18ff7a, #00af66);
+}
+
+.btn-solve:hover {
+    transform: scale(1.05);
+}
+
+
+/* ===== Tooltip ===== */
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    cursor: help;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 220px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -110px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+
+/* ===== Table Résultat ===== */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: #1A1A28;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+th,
+td {
+    padding: 12px;
+    text-align: center;
+    color: #fff;
+    border-bottom: 1px solid #333;
+}
+
+th {
+    background: linear-gradient(135deg, #ff7a18, #af002d);
+    color: #fff;
+}
+
+
+/* ===== Responsive ===== */
+
+@media(max-width:600px) {
+    .grid-variables {
+        grid-template-columns: 1fr;
+    }
+}
